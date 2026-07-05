@@ -208,4 +208,40 @@ h1{
   text-align:center;
   display:none;
 }
+#winnerBanner.win-banner{
+  background: var(--gold);
+  padding: 28px 16px;
+  animation: pop-in .35s ease;
+}
+#winnerBanner .win-title{
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+#winnerBanner .win-sub{
+  font-size: 1rem;
+  margin-top: 6px;
+  font-weight: 700;
+}
+@keyframes pop-in{
+  0%{ transform: scale(0.85); opacity: 0; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+.phases-panel{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-top: 8px;
+  padding: 4px 14px;
+}
+.phases-list{
+  margin: 8px 0;
+  padding-left: 20px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.phases-list li{ padding: 2px 0; }
 .hidden{display:none;}
