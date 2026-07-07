@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Isla Calavera · Marcador</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#122e26">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="back" href="index.html">‹ Hub de juegos</a>
+<h1 id="pageTitle">☠️ Isla Calavera</h1>
+<div class="sub" id="pageSub">Hasta 6 jugadores. Gana quien llegue a 8000 puntos. Puedes sumar o restar puntos en cada ronda (escribe el número en negativo para restar, ej. <b>-500</b>).</div>
+
+<div id="setup">
+  <div id="setupInputs"></div>
+  <button class="btn" id="startBtn">Empezar partida</button>
+</div>
+
+<div id="winnerBanner"></div>
+<div id="players"></div>
+
+<div class="toolbar hidden" id="toolbar">
+  <button class="btn secondary" id="resetBtn">Reiniciar puntos</button>
+  <button class="btn secondary" id="newGameBtn">Nueva partida</button>
+</div>
+
+<script src="js/scorer.js"></script>
+<script>
+initScorer({
+  gameId: 'islacalavera',
+  gameName: 'Isla Calavera',
+  maxPlayers: 6,
+  minPlayers: 2,
+  lowWins: false,
+  threshold: 8000,
+  lockOnWin: true,
+  trackPhases: false,
+  startMelody: true,
+  winMelody: true,
+  milestonePoints: 5000,
+  milestoneMessage: (name) => `Por las barbas de Neptuno, ${name}, 5000 monedas para el botín.`,
+  negativeMessage: (name) => `Rata de alcantarilla, ${name}, tus deudas hunden el barco.`,
+  rulesButtonLabel: '📖 Ver reglas de cartas especiales',
+  rulesIntro: 'Isla Calavera (regla base): si salen 4 o más calaveras en la primera tirada, se sigue tirando para sacar calaveras. Si no sale ninguna, se restan 100 puntos por calavera a los demás jugadores.',
+  rules: [
+    { name: 'Tesoro', desc: 'se salvan los dados que estén encima.' },
+    { name: 'Pirata', desc: 'duplica puntos. En Isla Calavera, 200 puntos por calavera.' },
+    { name: 'Hechicera', desc: 'rescata una calavera.' },
+    { name: 'Calaveras', desc: 'empiezas con las que lleve la carta.' },
+    { name: 'Mono y Loro', desc: 'se pueden combinar entre sí.' },
+    { name: 'Barco pirata', desc: 'no se puede ir a Isla Calavera. Hay que sacar los sables de la carta y terminar voluntariamente. Si fallas, restas los puntos de la carta. Si ganas, sumas los puntos de los dados más los de la carta.' },
+    { name: 'Moneda de oro', desc: 'empiezas con una moneda.' },
+    { name: 'Diamante', desc: 'empiezas con un diamante.' },
+    { name: 'Tiempo de paz', desc: 'hay que acabar sin sables (tampoco vale ir a Isla Calavera). Si ganas, los puntos van x2. Si pierdes, -500 puntos.' },
+    { name: 'Calavera y sable', desc: 'no se puede ir a Isla Calavera. Se tira hasta que todo sean calaveras y sables (3 calaveras no acaba el turno). 5 sables = 1200 puntos + los de los dados. Si pierdes, se reparten entre el resto.' },
+    { name: 'Naufragio', desc: 'no se puede ir a Isla Calavera. Se tira solo 2 veces aunque salgan 3 calaveras. En la segunda tirada solo puntúan diamantes y oros, y van x2.' }
+  ],
+  rulesNote: 'Victoria instantánea: si alguien saca 9 oros/diamantes, gana la partida inmediatamente.'
+});
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>
