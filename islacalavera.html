@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Isla Calavera · Marcador</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#122e26">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="back" href="index.html">‹ Hub de juegos</a>
+<h1 id="pageTitle">☠️ Isla Calavera</h1>
+<div class="sub" id="pageSub">Hasta 6 jugadores. Gana quien llegue a 8000 puntos. Puedes sumar o restar puntos en cada ronda (escribe el número en negativo para restar, ej. <b>-500</b>).</div>
+
+<div id="setup">
+  <div id="setupInputs"></div>
+  <button class="btn" id="startBtn">Empezar partida</button>
+</div>
+
+<div id="winnerBanner"></div>
+<div id="players"></div>
+
+<div class="toolbar hidden" id="toolbar">
+  <button class="btn secondary" id="resetBtn">Reiniciar puntos</button>
+  <button class="btn secondary" id="newGameBtn">Nueva partida</button>
+</div>
+
+<script src="js/scorer.js"></script>
+<script>
+initScorer({
+  gameId: 'islacalavera',
+  gameName: 'Isla Calavera',
+  maxPlayers: 6,
+  minPlayers: 2,
+  lowWins: false,
+  threshold: 8000,
+  lockOnWin: true,
+  trackPhases: false,
+  startMelody: 'drunkenSailor',
+  winMelody: 'drunkenSailor',
+  milestonePoints: 5000,
+  milestoneMessage: (name) => `Por las barbas de Neptuno, ${name}, 5000 monedas para el botín.`,
+  negativeMessage: (name) => `Rata de alcantarilla, ${name}, tus deudas hunden el barco.`,
+  rulesButtonLabel: '📖 Ver reglas de cartas especiales',
+  helpSections: [
+    {
+      label: '📜 Reglas',
+      title: '🏴‍☠️ Reglas de Isla Calavera',
+      type: 'blocks',
+      blocks: [
+        { heading: '1. Preparación', lines: [
+          'Todos los jugadores empiezan con 0 puntos.',
+          'Baraja las cartas de Pirata.',
+          'El primer jugador comienza.'
+        ]},
+        { heading: '2. Comienzo del turno', lines: [
+          'Roba 1 carta de Pirata y colócala boca arriba.',
+          'Su efecto solo dura durante ese turno.'
+        ]},
+        { heading: '3. Primera tirada', lines: [
+          'Lanza los 8 dados.'
+        ]},
+        { heading: '4. ¿Has sacado 4 o más calaveras?', lines: [
+          'Sí: vas a la Isla Calavera.',
+          'No: continúa el turno normalmente.'
+        ]},
+        { heading: '5. Decide', lines: [
+          'Aparta las calaveras (no se vuelven a lanzar).',
+          'Guarda los dados que quieras conservar.',
+          'Relanza el resto.'
+        ]},
+        { heading: '6. Sigue arriesgando', lines: [
+          'Puedes seguir tirando tantas veces como quieras.',
+          'Cada nueva tirada debe hacerse con al menos 2 dados.'
+        ]},
+        { heading: '7. Tres calaveras', lines: [
+          'Si acumulas 3 calaveras, pierdes todos los puntos del turno.'
+        ]},
+        { heading: '8. Plantarse', lines: [
+          'Cuando quieras, puedes dejar de tirar y contar tus puntos.'
+        ]},
+        { heading: '9. Final de la partida', lines: [
+          'Cuando alguien llega a 8.000 puntos, el resto de la partida termina.',
+          'Gana quien tenga más puntos.'
+        ]},
+        { heading: '☠️ Isla Calavera', lines: [
+          'Si en la primera tirada salen 4 o más calaveras, entras en Isla Calavera.',
+          'Continúa tirando para conseguir más calaveras.',
+          'Al terminar, cada rival pierde 100 puntos por cada calavera obtenida.'
+        ]},
+        { heading: '⚡ Victoria instantánea', lines: [
+          'Si alguien consigue 9 oros o diamantes en una sola tirada, gana la partida inmediatamente.'
+        ]}
+      ]
+    },
+    {
+      label: '🔢 Puntuación',
+      title: '🔢 Puntuación',
+      type: 'blocks',
+      blocks: [
+        { heading: null, lines: [
+          'Diamantes: 100 puntos cada uno.',
+          'Monedas: 100 puntos cada una.'
+        ]},
+        { heading: 'Combinaciones', lines: [
+          '3 iguales = 100',
+          '4 iguales = 200',
+          '5 iguales = 500',
+          '6 iguales = 1.000',
+          '7 iguales = 2.000',
+          '8 iguales = 4.000'
+        ]},
+        { heading: null, lines: [
+          'Si consigues usar los 8 dados sin ninguna calavera, obtienes 500 puntos extra.'
+        ]}
+      ]
+    },
+    {
+      label: '🃏 Cartas especiales',
+      title: '🃏 Cartas especiales',
+      type: 'rules',
+      items: [
+        { name: 'Tesoro', desc: 'después de tirar, se colocan los dados sobre esta carta. Se pueden relanzar después si se desea. Con la tercera calavera termina el turno. Solo se anotan los puntos que estén sobre la carta.' },
+        { name: 'Pirata', desc: 'se duplican los puntos. En Isla Calavera, los oponentes pierden 200 puntos por calavera.' },
+        { name: 'Hechicera', desc: 'una sola vez se puede volver a tirar un dado con calavera.' },
+        { name: 'Calaveras', desc: 'se empieza con las calaveras que haya en la carta.' },
+        { name: 'Mono y Loro', desc: 'cualquier mono y loro cuenta como combinación.' },
+        { name: 'Barco pirata', desc: 'hay que sacar al menos la cantidad de sables que indica la carta y terminar voluntariamente. Si se consigue, además de las combinaciones se suman los puntos de la carta. Si no, no se ganan puntos y se restan los de la carta. No se puede ir a Isla Calavera.' },
+        { name: 'Moneda de oro / Diamante', desc: 'se empieza con una moneda o un diamante, según la carta.' },
+        { name: 'Tiempo de paz', desc: 'hay que terminar sin ningún sable (tampoco vale ir a Isla Calavera). Si se consigue, los puntos se duplican. Si no, no se ganan puntos y se restan 500 por cada sable del resultado final.' },
+        { name: 'Ataque Zombi (calaveras y sables)', desc: 'hay que ir tirando los dados hasta que todos muestren calaveras o sables. Las calaveras no se vuelven a lanzar, pero el turno no acaba por sacar tres de ellas, y no se puede ir a Isla Calavera. Se pueden lanzar los dados de uno en uno. Si se consiguen al menos 5 sables, se ganan 1200 puntos; si no, se reparten a partes iguales entre los rivales.' },
+        { name: 'Naufragio', desc: 'solo se pueden lanzar los dados 2 veces, y no se pueden relanzar las calaveras. Aunque salgan 3 o más calaveras en la primera tirada, se puede tirar una segunda vez. No se puede ir a Isla Calavera. Tras la segunda tirada, diamantes y monedas valen el doble, sueltos o en combinación — pero en este turno solo puntúan diamantes y monedas.' }
+      ]
+    }
+  ]
+});
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>
