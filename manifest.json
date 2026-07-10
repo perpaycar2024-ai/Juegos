@@ -1,0 +1,35 @@
+{
+  "name": "Hub de Juegos",
+  "short_name": "Juegos",
+  "description": "Marcador de puntos para Phase 10, Isla Calavera, Continental y más",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#122e26",
+  "theme_color": "#122e26",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Phase 10", "url": "./phase10.html" },
+    { "name": "Isla Calavera", "url": "./islacalavera.html" },
+    { "name": "Continental", "url": "./continental.html" },
+    { "name": "Rummikub", "url": "./rummikub.html" }
+  ]
+}
