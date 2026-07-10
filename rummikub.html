@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rummikub · Marcador</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#122e26">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="back" href="index.html">‹ Hub de juegos</a>
+<h1 id="pageTitle">🀄 Rummikub</h1>
+<div class="sub" id="pageSub">Elige cuántas rondas jugáis. Al terminar todas, gana quien tenga menos puntos.</div>
+
+<div id="setup">
+  <div id="setupInputs"></div>
+  <button class="btn" id="startBtn">Empezar partida</button>
+</div>
+
+<div id="winnerBanner"></div>
+<div id="players"></div>
+
+<div class="toolbar hidden" id="toolbar">
+  <button class="btn secondary" id="resetBtn">Reiniciar puntos</button>
+  <button class="btn secondary" id="newGameBtn">Nueva partida</button>
+</div>
+
+<script src="js/scorer.js"></script>
+<script>
+initScorer({
+  gameId: 'rummikub',
+  gameName: 'Rummikub',
+  maxPlayers: 6,
+  minPlayers: 2,
+  lowWins: true,
+  roundOptions: [2, 3, 4, 5, 6],
+  startMelody: 'elegant',
+  winMelody: 'elegant'
+});
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>
