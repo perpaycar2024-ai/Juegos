@@ -150,7 +150,7 @@ function initScorer(config){
   }
 
   function buildRoundButton(){
-    if(!config.roundOptions || !config.roundOptions.length) return;
+    if(!config.fixedRounds && (!config.roundOptions || !config.roundOptions.length)) return;
     const btn = document.createElement('button');
     btn.id = 'roundBtn';
     btn.className = 'btn round-btn';
@@ -166,6 +166,33 @@ function initScorer(config){
     } else {
       btn.textContent = '🏁 Fin de partida';
     }
+    updateRoundInfoBox();
+  }
+
+  function updateRoundInfoBox(){
+    if(!config.roundInfo) return;
+    let box = document.getElementById('roundInfoBox');
+    if(!box){
+      box = document.createElement('div');
+      box.id = 'roundInfoBox';
+      box.className = 'round-info-box';
+      const toolbar = document.getElementById('toolbar');
+      toolbar.parentNode.insertBefore(box, toolbar);
+    }
+    const info = config.roundInfo[currentRound-1];
+    if(info){
+      box.innerHTML = '🃏 Reparte <b>' + info.cards + '</b> cartas · Fase: <b>' + info.phase + '</b>';
+      box.classList.remove('hidden');
+    } else {
+      box.classList.add('hidden');
+    }
+  }
+
+  function speakRoundInfo(){
+    if(!config.roundInfo) return;
+    const info = config.roundInfo[currentRound-1];
+    if(!info) return;
+    speak('Turno ' + currentRound + '. Se reparten ' + info.cards + ' cartas. ' + info.phase + '.');
   }
 
   function advanceRound(){
@@ -174,6 +201,7 @@ function initScorer(config){
       currentRound++;
       save();
       updateRoundButton();
+      speakRoundInfo();
       if(currentRound === totalRounds){
         const leader = bestPlayer();
         speak('Última ronda. Ahora mismo va ganando ' + leader.name + '.');
@@ -183,6 +211,10 @@ function initScorer(config){
     }
   }
   function buildRoundSelector(){
+    if(config.fixedRounds){
+      selectedRounds = config.fixedRounds;
+      return;
+    }
     if(!config.roundOptions || !config.roundOptions.length) return;
     const wrap = document.createElement('div');
     wrap.id = 'roundSelectorWrap';
@@ -357,7 +389,10 @@ function initScorer(config){
     locked = false;
     if(config.autoTurns) shuffle(players);
     if(config.pirateDeck) deck = shuffle(buildFullDeck());
-    if(config.roundOptions && config.roundOptions.length){
+    if(config.fixedRounds){
+      totalRounds = config.fixedRounds;
+      currentRound = 1;
+    } else if(config.roundOptions && config.roundOptions.length){
       totalRounds = selectedRounds;
       currentRound = 1;
     }
@@ -371,6 +406,7 @@ function initScorer(config){
     render();
     updateRoundButton();
     playStartMelody();
+    speakRoundInfo();
     if(config.autoTurns) startTurn(0);
   }
 
@@ -474,7 +510,7 @@ function initScorer(config){
         if(config.autoTurns) shuffle(players);
         players.forEach(p => { p.total = 0; p.history = []; p.phase = 1; p.phaseDone = false; p.milestoneAnnounced = false; p.phaseAnnounced = false; p.completeAnnounced = false; p.pirateCard = null; p.turnMilestoneAnnounced = false; });
         if(config.pirateDeck) deck = shuffle(buildFullDeck());
-        if(config.roundOptions && config.roundOptions.length) currentRound = 1;
+        if(config.fixedRounds || (config.roundOptions && config.roundOptions.length)) currentRound = 1;
         pending7000 = [];
         locked = false;
         document.getElementById('winnerBanner').style.display = 'none';
@@ -482,6 +518,7 @@ function initScorer(config){
         save();
         render();
         updateRoundButton();
+        speakRoundInfo();
         if(config.autoTurns) startTurn(0);
       }
     });
@@ -501,6 +538,8 @@ function initScorer(config){
         localStorage.removeItem(KEY);
         showSetupPanels();
         document.getElementById('toolbar').classList.add('hidden');
+        const infoBox = document.getElementById('roundInfoBox');
+        if(infoBox) infoBox.classList.add('hidden');
         document.getElementById('winnerBanner').style.display = 'none';
         document.getElementById('winnerBanner').classList.remove('win-banner');
         document.getElementById('players').innerHTML = '';
