@@ -12,7 +12,7 @@
 <body>
 <a class="back" href="index.html">‹ Hub de juegos</a>
 <h1 id="pageTitle">🃏 Continental</h1>
-<div class="sub" id="pageSub">Hasta 8 jugadores. Suma la puntuación de cada ronda y se acumula en el total.</div>
+<div class="sub" id="pageSub">Hasta 8 jugadores. 7 rondas fijas — al terminar la última, gana quien tenga menos puntos.</div>
 
 <div id="setup">
   <div id="setupInputs"></div>
@@ -35,18 +35,32 @@ initScorer({
   maxPlayers: 8,
   minPlayers: 2,
   lowWins: true,
-  trackPhases: true,
-  maxPhases: 9,
-  phases: [
-    'Fase 1: (pon aquí la descripción real)',
-    'Fase 2: (pon aquí la descripción real)',
-    'Fase 3: (pon aquí la descripción real)',
-    'Fase 4: (pon aquí la descripción real)',
-    'Fase 5: (pon aquí la descripción real)',
-    'Fase 6: (pon aquí la descripción real)',
-    'Fase 7: (pon aquí la descripción real)',
-    'Fase 8: (pon aquí la descripción real)',
-    'Fase 9: (pon aquí la descripción real)'
+  fixedRounds: 7,
+  roundInfo: [
+    { cards: 6, phase: 'dos tríos' },
+    { cards: 7, phase: 'un trío y una escalera' },
+    { cards: 8, phase: 'dos escaleras' },
+    { cards: 9, phase: 'tres tríos' },
+    { cards: 10, phase: 'dos tríos y una escalera' },
+    { cards: 11, phase: 'un trío y dos escaleras' },
+    { cards: 12, phase: 'tres escaleras' }
+  ],
+  helpSections: [
+    {
+      label: '🃏 Las 7 rondas',
+      title: '🃏 Las 7 rondas de Continental',
+      type: 'blocks',
+      blocks: [
+        { heading: 'Ronda 1', lines: ['Se reparten 6 cartas. Hay que hacer dos tríos.'] },
+        { heading: 'Ronda 2', lines: ['Se reparten 7 cartas. Un trío y una escalera.'] },
+        { heading: 'Ronda 3', lines: ['Se reparten 8 cartas. Dos escaleras.'] },
+        { heading: 'Ronda 4', lines: ['Se reparten 9 cartas. Tres tríos.'] },
+        { heading: 'Ronda 5', lines: ['Se reparten 10 cartas. Dos tríos y una escalera.'] },
+        { heading: 'Ronda 6', lines: ['Se reparten 11 cartas. Un trío y dos escaleras.'] },
+        { heading: 'Ronda 7', lines: ['Se reparten 12 cartas. Tres escaleras.'] },
+        { heading: null, lines: ['Al cerrar un jugador la ronda quedándose sin cartas, se cuentan los puntos y empieza la siguiente ronda para todos. Al terminar la 7ª, gana quien tenga menos puntos en total.'] }
+      ]
+    }
   ]
 });
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
