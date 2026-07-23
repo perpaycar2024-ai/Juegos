@@ -60,10 +60,12 @@ h1{
   margin: 0 auto;
 }
 .chip{
-  background: var(--panel);
+  background: rgba(15, 39, 33, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   border-radius: 16px;
   padding: 20px 16px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255,255,255,0.1);
   border-top: 6px solid var(--chip-accent, var(--gold));
   display:flex;
   flex-direction:column;
@@ -71,14 +73,16 @@ h1{
   min-height: 110px;
   justify-content:center;
   transition: transform .12s ease;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 .chip:active{ transform: scale(0.97); }
 .chip .icon{ font-size: 1.8rem; }
 .chip .title{ font-weight:800; font-size:1.05rem; }
 .chip .meta{ color: var(--muted); font-size: 0.78rem; }
 .chip.soon{
-  opacity: 0.55;
-  border-top-color: var(--line);
+  background: rgba(15, 39, 33, 0.25);
+  border: 1px dashed rgba(255,255,255,0.25);
+  border-top: 1px dashed rgba(255,255,255,0.25);
 }
 /* ---- Setup form ---- */
 #setup{
@@ -463,5 +467,33 @@ h1{
   margin-right: 6px;
   vertical-align: middle;
   box-shadow: 0 0 6px var(--gold);
+}
+.pager{
+  max-width: 720px;
+  margin: 18px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.pager button{
+  background: rgba(15, 39, 33, 0.6);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.pager button:disabled{
+  opacity: 0.3;
+  cursor: default;
+}
+.pager span{
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 .hidden{display:none !important;}
