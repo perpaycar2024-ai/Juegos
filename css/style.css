@@ -19,7 +19,7 @@
 html,body{margin:0;}
 body{
   font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--felt) url('assets/juego.png') no-repeat center center fixed;
+  background: var(--felt) url('../assets/juego.png') no-repeat center center fixed;
   background-size: cover;
   color: var(--ink);
   min-height: 100vh;
