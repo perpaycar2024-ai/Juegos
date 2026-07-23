@@ -24,7 +24,8 @@
     pirateDeck: null,         // opcional: [{name, count}] — mazo real sin repetición
     autoTurns: false,         // true = orden de turno barajado, carta y anuncio automáticos por turno
     turnMilestone: null,      // opcional: puntos para avisar "fulano alcanzó X" antes del siguiente turno
-    winSpokenMessage: null    // opcional: (nombre) => texto a decir al ganar la partida
+    winSpokenMessage: null,   // opcional: (nombre) => texto a decir al ganar la partida
+    background: null          // opcional: ruta a una imagen de fondo propia para este juego (relativa a la página)
   }
 */
 function initScorer(config){
@@ -40,6 +41,10 @@ function initScorer(config){
   let pending7000 = [];
   let phaseAnnounceTimer = null;
   let completeAnnounceTimer = null;
+
+  if(config.background){
+    document.body.style.backgroundImage = "url('" + config.background + "')";
+  }
 
   function hideSetupPanels(){
     document.getElementById('setup').classList.add('hidden');
