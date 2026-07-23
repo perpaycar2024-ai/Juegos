@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hub-juegos-v24';
+const CACHE_NAME = 'hub-juegos-v25';
 const ASSETS = [
   './index.html',
   './phase10.html',
