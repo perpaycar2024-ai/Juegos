@@ -15,9 +15,16 @@
 
 <div class="hub-grid" id="grid"></div>
 
+<div class="pager hidden" id="pager">
+  <button id="prevBtn" aria-label="Página anterior">‹</button>
+  <span id="pageIndicator">1 / 1</span>
+  <button id="nextBtn" aria-label="Página siguiente">›</button>
+</div>
+
 <script>
 // Para añadir un juego nuevo en el futuro: añade un objeto aquí y crea su .html
-// copiando phase10.html / islacalavera.html como plantilla.
+// copiando phase10.html / islacalavera.html como plantilla. No hace falta
+// preocuparse de cuántos hay — el paginador se ajusta solo de 4 en 4.
 const GAMES = [
   { id:'phase10', title:'Phase 10', file:'phase10.html', icon:'🎴', meta:'2-4 jugadores', color:'red' },
   { id:'islacalavera', title:'Isla Calavera', file:'islacalavera.html', icon:'☠️', meta:'2-6 jugadores', color:'teal' },
@@ -25,24 +32,51 @@ const GAMES = [
   { id:'rummikub', title:'Rummikub', file:'rummikub.html', icon:'🀄', meta:'2-6 jugadores', color:'purple' },
 ];
 
-const grid = document.getElementById('grid');
-GAMES.forEach(g => {
-  const a = document.createElement('a');
-  a.href = g.file;
-  a.className = 'chip';
-  a.style.setProperty('--chip-accent', 'var(--'+g.color+')');
-  a.innerHTML = `
-    <div class="icon">${g.icon}</div>
-    <div class="title">${g.title}</div>
-    <div class="meta">${g.meta}</div>
-  `;
-  grid.appendChild(a);
-});
+const PAGE_SIZE = 4;
+const ITEMS = GAMES.concat([{ soon: true }]);
+const totalPages = Math.ceil(ITEMS.length / PAGE_SIZE);
+let page = 0;
 
-const soon = document.createElement('div');
-soon.className = 'chip soon';
-soon.innerHTML = `<div class="icon">➕</div><div class="title">Próximamente</div><div class="meta">más juegos aquí</div>`;
-grid.appendChild(soon);
+const grid = document.getElementById('grid');
+
+function buildTile(item){
+  if(item.soon){
+    const div = document.createElement('div');
+    div.className = 'chip soon';
+    div.innerHTML = `<div class="icon">➕</div><div class="title">Próximamente</div><div class="meta">más juegos aquí</div>`;
+    return div;
+  }
+  const a = document.createElement('a');
+  a.href = item.file;
+  a.className = 'chip';
+  a.style.setProperty('--chip-accent', 'var(--'+item.color+')');
+  a.innerHTML = `
+    <div class="icon">${item.icon}</div>
+    <div class="title">${item.title}</div>
+    <div class="meta">${item.meta}</div>
+  `;
+  return a;
+}
+
+function renderPage(){
+  grid.innerHTML = '';
+  const start = page * PAGE_SIZE;
+  ITEMS.slice(start, start + PAGE_SIZE).forEach(item => grid.appendChild(buildTile(item)));
+  const pager = document.getElementById('pager');
+  if(totalPages <= 1){
+    pager.classList.add('hidden');
+  } else {
+    pager.classList.remove('hidden');
+    document.getElementById('pageIndicator').textContent = (page+1) + ' / ' + totalPages;
+    document.getElementById('prevBtn').disabled = (page === 0);
+    document.getElementById('nextBtn').disabled = (page === totalPages - 1);
+  }
+}
+
+document.getElementById('prevBtn').onclick = () => { if(page > 0){ page--; renderPage(); } };
+document.getElementById('nextBtn').onclick = () => { if(page < totalPages - 1){ page++; renderPage(); } };
+
+renderPage();
 
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 </script>

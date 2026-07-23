@@ -11,12 +11,22 @@ const ASSETS = [
   './assets/juego.png',
   './assets/icon-192.png',
   './assets/icon-512.png',
-  './assets/icon-512-maskable.png'
+  './assets/icon-512-maskable.png',
+  './assets/bg-phase10.png',
+  './assets/bg-islacalavera.png',
+  './assets/bg-continental.png',
+  './assets/bg-rummikub.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => {
+      // cada archivo se cachea por separado: si alguno todavía no existe (ej. un
+      // fondo que aún no has subido), no rompe el resto de la instalación
+      return Promise.all(
+        ASSETS.map(url => cache.add(url).catch(() => {}))
+      );
+    })
   );
   self.skipWaiting();
 });
